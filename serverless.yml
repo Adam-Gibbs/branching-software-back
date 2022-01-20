@@ -43,7 +43,7 @@ functions:
     handler: server/signup.signup
     events:
       - http:
-          path: signup
+          path: v1/signup
           method: post
           cors: true
 
@@ -51,7 +51,7 @@ functions:
     handler: server/signin.signin
     events:
       - http:
-          path: signin
+          path: v1/signin
           method: post
           cors: true
 
@@ -59,7 +59,7 @@ functions:
     handler: server/hi.hi
     events:
       - http:
-          path: hi
+          path: v1/hi
           method: get
           cors: true
 
