@@ -10,8 +10,7 @@ module.exports.signup = (event, context, callback) => {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
-      headers: { 'Content-Type': 'text/plain' },
-      body: 'Invalid data.',
+      body: JSON.stringify({message: 'Invalid data.'}),
     });
     return;
   }
@@ -37,8 +36,7 @@ module.exports.signup = (event, context, callback) => {
       console.error(error);
       callback(null, {
         statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t create the user.',
+        body: JSON.stringify({message: 'Couldn\'t create the user.'}),
       });
       return;
     }
@@ -46,8 +44,7 @@ module.exports.signup = (event, context, callback) => {
     if (result.Item) {
       callback(null, {
         statusCode: 401,
-        headers: { 'Content-Type': 'text/plain' },
-        body: 'User already exists.',
+        body: JSON.stringify({message: 'User already exists.'}),
       });
     }
   });
@@ -59,15 +56,14 @@ module.exports.signup = (event, context, callback) => {
       console.error(error);
       callback(null, {
         statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t create the user.',
+        body: JSON.stringify({message: 'Couldn\'t create the user.'}),
       });
       return;
     }
 
     callback(null, {
       statusCode: 201,
-      body: JSON.stringify(params.Item),
+      body: JSON.stringify({message: 'Success'}, params.Item),
     });
   });
 };
