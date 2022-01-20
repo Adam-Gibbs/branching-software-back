@@ -6,7 +6,7 @@ const db = require('./dynamodb');
 module.exports.signup = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
-  if (typeof data.email !== 'string' && typeof data.password !== 'string' && typeof data.firstName !== 'string' && typeof data.lastName !== 'string') {
+  if (typeof data.email !== 'string' || typeof data.password !== 'string' || typeof data.firstName !== 'string' || typeof data.lastName !== 'string') {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
