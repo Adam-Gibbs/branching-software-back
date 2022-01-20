@@ -1,0 +1,83 @@
+
+org: adamgibbs
+app: branching-software
+service: branching-software-back
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  tableName: 'branching-software-table-${self:provider.stage}'
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: offline/migrations
+    stages:
+      - dev
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+  stage: dev
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+    Resource:
+      - { "Fn::GetAtt": ["BSDynamoDBTable", "Arn" ] }
+  environment:
+    USERS_TABLE: users-${self:custom.tableName}
+
+functions:
+  signup:
+    handler: server/signup.signup
+    events:
+      - http:
+          path: signup
+          method: post
+          cors: true
+
+  signin:
+    handler: server/signin.signin
+    events:
+      - http:
+          path: signin
+          method: post
+          cors: true
+
+  hi:
+    handler: server/hi.hi
+    events:
+      - http:
+          path: hi
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    BSDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Delete
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: users-${self:custom.tableName}
