@@ -38,8 +38,8 @@ module.exports.signin = (event, context, callback) => {
     try {
       if (result.Item.password === data.password) {
         response = {
-          statusCode: 200,
-          body: JSON.stringify(result.Item.id),
+          statusCode: 201,
+          body: JSON.stringify(result.Item),
         };
       }
     } catch (e) {

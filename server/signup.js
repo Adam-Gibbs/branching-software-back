@@ -66,7 +66,7 @@ module.exports.signup = (event, context, callback) => {
     }
 
     callback(null, {
-      statusCode: 200,
+      statusCode: 201,
       body: JSON.stringify(params.Item),
     });
   });
