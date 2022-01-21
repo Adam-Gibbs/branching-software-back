@@ -45,7 +45,7 @@ functions:
       - http:
           path: v1/signup
           method: post
-          cors: true
+          cors: false
 
   signin:
     handler: server/signin.signin
@@ -53,7 +53,7 @@ functions:
       - http:
           path: v1/signin
           method: post
-          cors: true
+          cors: false
 
   hi:
     handler: server/hi.hi
