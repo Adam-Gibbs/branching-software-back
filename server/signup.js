@@ -44,7 +44,7 @@ module.exports.signup = (event, context, callback) => {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
         },
-        body: JSON.stringify({message: 'Couldn\'t create the user.'}),
+        body: JSON.stringify({message: 'Couldn\'t create the user'}),
       });
       return;
     }
@@ -57,7 +57,7 @@ module.exports.signup = (event, context, callback) => {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
         },
-        body: JSON.stringify({message: 'User already exists.'}),
+        body: JSON.stringify({message: 'User already exists'}),
       });
     } else {
       // write the todo to the database
@@ -71,7 +71,7 @@ module.exports.signup = (event, context, callback) => {
               'Access-Control-Allow-Origin': '*',
               'Access-Control-Allow-Credentials': true,
             },
-            body: JSON.stringify({message: 'Couldn\'t create the user.'}),
+            body: JSON.stringify({message: 'Couldn\'t create the user'}),
           });
           return;
         }

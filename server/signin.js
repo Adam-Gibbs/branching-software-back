@@ -12,7 +12,7 @@ module.exports.signin = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'Invalid data.'}),
+      body: JSON.stringify({message: 'Invalid data'}),
     });
     return;
   }
@@ -32,7 +32,7 @@ module.exports.signin = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'Unauthorized.'}),
+      body: JSON.stringify({message: 'Incorrect Username/Password'}),
     };
 
     if (error) {
