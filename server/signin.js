@@ -49,7 +49,7 @@ module.exports.signin = (event, context, callback) => {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
           },
-          body: JSON.stringify({message: 'Success', ...params.Item})
+          body: JSON.stringify({message: 'Success', ...result.Item}),
         };
       }
     } catch (e) {
