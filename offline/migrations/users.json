@@ -16,6 +16,6 @@
             "ReadCapacityUnits": 1,
             "WriteCapacityUnits": 1
         },
-        "TableName": "users-branching-software-table-dev"
+        "TableName": "branching-software-dev-user-v1"
     }
 }

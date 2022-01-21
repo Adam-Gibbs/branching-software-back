@@ -14,9 +14,9 @@ package:
     - node_modules/serverless-offline/**
 
 custom:
-  tablePrefix: branching-software-table-${self:provider.stage}
-  usersTable: users-v1-${self:custom.tablePrefix}
-  assetsTable: assets-v1z-${self:custom.tablePrefix}
+  tablePrefix: branching-software-${self:provider.stage}
+  usersTable: ${self:custom.tablePrefix}-users-v1
+  assetsTable: ${self:custom.tablePrefix}-assets-v1
 
   dynamodb:
     start:
