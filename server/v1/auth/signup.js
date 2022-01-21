@@ -35,6 +35,7 @@ module.exports.signup = (event, context, callback) => {
     },
   };
 
+  // get the user from the database, in case of duplicate user
   db.get(params, (error, result) => {
     if (error) {
       console.error(error);
@@ -59,7 +60,7 @@ module.exports.signup = (event, context, callback) => {
         body: JSON.stringify({message: 'User already exists'}),
       });
     } else {
-      // write the todo to the database
+      // write the user to the database
       db.put(params, (errorPut) => {
         // handle potential errors
         if (errorPut) {

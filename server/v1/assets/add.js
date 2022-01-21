@@ -3,7 +3,7 @@
 const uuid = require('uuid');
 const db = require('../../dynamodb');
 
-module.exports.addAsset = (event, context, callback) => {
+module.exports.add = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
   if (typeof data.userId !== 'string' || typeof data.co2 !== 'number' || typeof data.description !== 'string' || typeof data.eol !== 'number' || typeof data.image !== 'string'|| typeof data.location !== 'string'|| typeof data.name !== 'string'|| typeof data.type !== 'string') {
@@ -36,7 +36,7 @@ module.exports.addAsset = (event, context, callback) => {
     },
   };
 
-  // write the todo to the database
+  // add the asset to the database
   db.put(params, (errorPut) => {
   // handle potential errors
   if (errorPut) {

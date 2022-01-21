@@ -67,7 +67,7 @@ functions:
           cors: true
 
   addAsset:
-    handler: server/v1/assets/addAsset.addAsset
+    handler: server/v1/assets/add.add
     events:
       - http:
           path: v1/assets/add
@@ -75,10 +75,18 @@ functions:
           cors: true
 
   allAssets:
-    handler: server/v1/assets/allAssets.allAssets
+    handler: server/v1/assets/all.all
     events:
       - http:
           path: v1/assets/all
+          method: post
+          cors: true
+
+  getAssets:
+    handler: server/v1/assets/get.get
+    events:
+      - http:
+          path: v1/assets/get
           method: post
           cors: true
 

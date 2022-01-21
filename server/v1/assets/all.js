@@ -2,7 +2,7 @@
 
 const db = require('../../dynamodb');
 
-module.exports.allAssets = (event, context, callback) => {
+module.exports.all = (event, context, callback) => {
   const data = JSON.parse(event.body);
   if (typeof data.userId !== 'string') {
     console.error('Validation Failed');
@@ -26,7 +26,7 @@ module.exports.allAssets = (event, context, callback) => {
     }
   };
 
-  // fetch todo from the database
+  // get all assets from the database
   db.query(params, (error, result) => {
     let response = {
       statusCode: 401,
