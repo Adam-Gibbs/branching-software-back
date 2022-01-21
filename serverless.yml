@@ -51,7 +51,7 @@ provider:
 
 functions:
   signup:
-    handler: server/signup.signup
+    handler: server/v1/auth/signup.signup
     events:
       - http:
           path: v1/signup
@@ -59,7 +59,7 @@ functions:
           cors: true
 
   signin:
-    handler: server/signin.signin
+    handler: server/v1/auth/signin.signin
     events:
       - http:
           path: v1/signin
@@ -67,18 +67,18 @@ functions:
           cors: true
 
   addAsset:
-    handler: server/addAsset.addAsset
+    handler: server/v1/assets/addAsset.addAsset
     events:
       - http:
-          path: v1/asset/add
+          path: v1/assets/add
           method: post
           cors: true
 
   allAssets:
-    handler: server/allAssets.allAssets
+    handler: server/v1/assets/allAssets.allAssets
     events:
       - http:
-          path: v1/asset/all
+          path: v1/assets/all
           method: post
           cors: true
 

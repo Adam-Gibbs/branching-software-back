@@ -1,10 +1,10 @@
 'use strict';
 
-const db = require('./dynamodb');
+const db = require('../../dynamodb');
 
-module.exports.allAssets = (event, context, callback) => {
+module.exports.signin = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string') {
+  if (typeof data.email !== 'string' && typeof data.password !== 'string') {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
@@ -18,23 +18,21 @@ module.exports.allAssets = (event, context, callback) => {
   }
 
   const params = {
-    TableName: process.env.ASSETS_TABLE,
-    IndexName: 'userId-asset-index',
-    KeyConditionExpression: 'userId = :u',
-    ExpressionAttributeValues: {
-    ':u': data.userId
-    }
+    TableName: process.env.USERS_TABLE,
+    Key: {
+      email: data.email,
+    },
   };
 
   // fetch todo from the database
-  db.query(params, (error, result) => {
+  db.get(params, (error, result) => {
     let response = {
       statusCode: 401,
       headers: {    
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'An error occurred while retrieving assets'}),
+      body: JSON.stringify({message: 'Incorrect Username/Password'}),
     };
 
     if (error) {
@@ -42,16 +40,16 @@ module.exports.allAssets = (event, context, callback) => {
       callback(null, response);
       return;
     }
-    
+
     try {
-      if (result.Items) {
+      if (result.Item.password === data.password) {
         response = {
           statusCode: 201,
           headers: {    
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
           },
-          body: JSON.stringify({message: 'Success', result: result.Items}),
+          body: JSON.stringify({message: 'Success', result: result.Item}),
         };
       }
     } catch (e) {
