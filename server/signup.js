@@ -14,7 +14,7 @@ module.exports.signup = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'Invalid data.'}),
+      body: JSON.stringify({message: 'Invalid data'}),
     });
     return;
   }
@@ -49,7 +49,6 @@ module.exports.signup = (event, context, callback) => {
       return;
     }
 
-    console.log(result);
     if (result.Item) {
       callback(null, {
         statusCode: 401,

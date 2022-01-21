@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports.hi = (event, context, callback) => {
-  console.log('hi');
   // create a response
   const response = {
     statusCode: 200,

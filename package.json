@@ -1,13 +1,13 @@
 {
     "name": "branching-software-back",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Serverless REST API for branching.software",
     "dependencies": {
-      "uuid": "^2.0.3"
+        "uuid": "^2.0.3"
     },
     "devDependencies": {
-      "aws-sdk": "^2.12.0",
-      "serverless-dynamodb-local": "^0.2.18",
-      "serverless-offline": "^8.3.1"
+        "aws-sdk": "^2.12.0",
+        "serverless-dynamodb-local": "^0.2.18",
+        "serverless-offline": "^8.3.1"
     }
 }
