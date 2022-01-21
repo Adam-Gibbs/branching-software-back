@@ -8,6 +8,10 @@ module.exports.signin = (event, context, callback) => {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
+      headers: {    
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify({message: 'Invalid data.'}),
     });
     return;
@@ -24,6 +28,10 @@ module.exports.signin = (event, context, callback) => {
   db.get(params, (error, result) => {
     let response = {
       statusCode: 401,
+      headers: {    
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify({message: 'Unauthorized.'}),
     };
 
@@ -37,6 +45,10 @@ module.exports.signin = (event, context, callback) => {
       if (result.Item.password === data.password) {
         response = {
           statusCode: 201,
+          headers: {    
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
           body: JSON.stringify({message: 'Success'}, params.Item)
         };
       }

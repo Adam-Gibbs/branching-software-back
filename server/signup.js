@@ -10,6 +10,10 @@ module.exports.signup = (event, context, callback) => {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
+      headers: {    
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify({message: 'Invalid data.'}),
     });
     return;
@@ -36,6 +40,10 @@ module.exports.signup = (event, context, callback) => {
       console.error(error);
       callback(null, {
         statusCode: error.statusCode || 501,
+        headers: {    
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify({message: 'Couldn\'t create the user.'}),
       });
       return;
@@ -45,6 +53,10 @@ module.exports.signup = (event, context, callback) => {
     if (result.Item) {
       callback(null, {
         statusCode: 401,
+        headers: {    
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify({message: 'User already exists.'}),
       });
     } else {
@@ -55,6 +67,10 @@ module.exports.signup = (event, context, callback) => {
           console.error(errorPut);
           callback(null, {
             statusCode: errorPut.statusCode || 501,
+            headers: {    
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+            },
             body: JSON.stringify({message: 'Couldn\'t create the user.'}),
           });
           return;
@@ -62,6 +78,10 @@ module.exports.signup = (event, context, callback) => {
 
         callback(null, {
           statusCode: 201,
+          headers: {    
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
           body: JSON.stringify({message: 'Success'}, params.Item),
         });
       });
