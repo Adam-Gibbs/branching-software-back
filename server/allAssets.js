@@ -34,7 +34,7 @@ module.exports.allAssets = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'You do not have any assets'}),
+      body: JSON.stringify({message: 'An error occurred while retrieving assets'}),
     };
 
     if (error) {
@@ -51,7 +51,7 @@ module.exports.allAssets = (event, context, callback) => {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
           },
-          body: JSON.stringify({message: 'Success', ...result.Items}),
+          body: JSON.stringify({message: 'Success', result: result.Items}),
         };
       }
     } catch (e) {
