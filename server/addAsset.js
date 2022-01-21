@@ -6,7 +6,7 @@ const db = require('./dynamodb');
 module.exports.addAsset = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string' || typeof data.co2 !== 'number' || typeof data.description !== 'string' || typeof data.eol !== 'string' || typeof data.image !== 'string'|| typeof data.location !== 'string'|| typeof data.name !== 'string'|| typeof data.type !== 'string') {
+  if (typeof data.userId !== 'string' || typeof data.co2 !== 'number' || typeof data.description !== 'string' || typeof data.eol !== 'number' || typeof data.image !== 'string'|| typeof data.location !== 'string'|| typeof data.name !== 'string'|| typeof data.type !== 'string') {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
