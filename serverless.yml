@@ -7,6 +7,12 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 
+package:
+  exclude:
+    - node_modules/dynamodb-localhost/**
+    - node_modules/serverless-dynamodb-local/**
+    - node_modules/serverless-offline/**
+
 custom:
   tablePrefix: branching-software-table-${self:provider.stage}
   usersTable: users-${self:custom.tablePrefix}
@@ -26,6 +32,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: eu-west-2
+  lambdaHashingVersion: 20201221
   stage: dev
   iamRoleStatements:
   - Effect: Allow
@@ -36,6 +43,7 @@ provider:
       - dynamodb:PutItem
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
+    Resource: "*"
 
   environment:
     USERS_TABLE: ${self:custom.usersTable}
@@ -66,6 +74,13 @@ functions:
           method: post
           cors: true
 
+  allAssets:
+    handler: server/allAssets.allAssets
+    events:
+      - http:
+          path: v1/asset/all
+          method: post
+          cors: true
 
   hi:
     handler: server/hi.hi
