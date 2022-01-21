@@ -8,7 +8,10 @@ plugins:
   - serverless-offline
 
 custom:
-  tableName: 'branching-software-table-${self:provider.stage}'
+  tablePrefix: branching-software-table-${self:provider.stage}
+  usersTable: users-${self:custom.tablePrefix}
+  assetsTable: assets-${self:custom.tablePrefix}
+
   dynamodb:
     start:
       port: 8000
@@ -33,10 +36,10 @@ provider:
       - dynamodb:PutItem
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
-    Resource:
-      - { "Fn::GetAtt": ["BSDynamoDBTable", "Arn" ] }
+
   environment:
-    USERS_TABLE: users-${self:custom.tableName}
+    USERS_TABLE: ${self:custom.usersTable}
+    ASSETS_TABLE: ${self:custom.assetsTable}
 
 functions:
   signup:
@@ -55,6 +58,15 @@ functions:
           method: post
           cors: true
 
+  addAsset:
+    handler: server/addAsset.addAsset
+    events:
+      - http:
+          path: v1/asset/add
+          method: post
+          cors: true
+
+
   hi:
     handler: server/hi.hi
     events:
@@ -65,7 +77,7 @@ functions:
 
 resources:
   Resources:
-    BSDynamoDBTable:
+    UsersTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Delete
       Properties:
@@ -80,4 +92,21 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: users-${self:custom.tableName}
+        TableName: ${self:custom.usersTable}
+
+    AssetsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Delete
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.assetsTable}
