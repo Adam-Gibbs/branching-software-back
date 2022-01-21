@@ -24,7 +24,7 @@ module.exports.addAsset = (event, context, callback) => {
     Item: {
       id: uuid.v1(),
       userId: data.userId,
-      c02: data.co2,
+      co2: data.co2,
       description: data.description,
       eol: data.eol,
       image: data.image,
@@ -58,7 +58,7 @@ module.exports.addAsset = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'Success', ...params.Item}),
+      body: JSON.stringify({message: 'Success', result: params.Item}),
     });
   });
 };
