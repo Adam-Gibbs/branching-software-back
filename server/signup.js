@@ -41,29 +41,30 @@ module.exports.signup = (event, context, callback) => {
       return;
     }
 
+    console.log(result);
     if (result.Item) {
       callback(null, {
         statusCode: 401,
         body: JSON.stringify({message: 'User already exists.'}),
       });
-    }
-  });
+    } else {
+      // write the todo to the database
+      db.put(params, (errorPut) => {
+        // handle potential errors
+        if (errorPut) {
+          console.error(errorPut);
+          callback(null, {
+            statusCode: errorPut.statusCode || 501,
+            body: JSON.stringify({message: 'Couldn\'t create the user.'}),
+          });
+          return;
+        }
 
-  // write the todo to the database
-  db.put(params, (error) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        body: JSON.stringify({message: 'Couldn\'t create the user.'}),
+        callback(null, {
+          statusCode: 201,
+          body: JSON.stringify({message: 'Success'}, params.Item),
+        });
       });
-      return;
     }
-
-    callback(null, {
-      statusCode: 201,
-      body: JSON.stringify({message: 'Success'}, params.Item),
-    });
   });
 };
