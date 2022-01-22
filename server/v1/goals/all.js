@@ -18,15 +18,15 @@ module.exports.all = (event, context, callback) => {
   }
 
   const params = {
-    TableName: process.env.ASSETS_TABLE,
-    IndexName: 'userId-asset-index',
+    TableName: process.env.GOALS_TABLE,
+    IndexName: 'userId-goal-index',
     KeyConditionExpression: 'userId = :u',
     ExpressionAttributeValues: {
     ':u': data.userId
     }
   };
 
-  // get all assets from the database
+  // get all goals from the database
   db.query(params, (error, result) => {
     let response = {
       statusCode: 401,
@@ -34,7 +34,7 @@ module.exports.all = (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({message: 'An error occurred while retrieving assets'}),
+      body: JSON.stringify({message: 'An error occurred while retrieving goals'}),
     };
 
     if (error) {
