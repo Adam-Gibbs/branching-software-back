@@ -5,7 +5,7 @@ const db = require('../../dynamodb');
 module.exports.get = (event, context, callback) => {
   const data = JSON.parse(event.body);
   if (typeof data.assetId !== 'string' || typeof data.userId !== 'string') {
-    console.error('Validation Failed');
+    console.log('Validation Failed');
     callback(null, {
       statusCode: 400,
       headers: {    
@@ -36,7 +36,7 @@ module.exports.get = (event, context, callback) => {
     };
 
     if (error) {
-      console.error(error);
+      console.log(error);
       callback(null, response);
       return;
     }
@@ -53,7 +53,7 @@ module.exports.get = (event, context, callback) => {
         };
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     } finally {
       callback(null, response);
     }

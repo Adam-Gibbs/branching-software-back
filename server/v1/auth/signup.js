@@ -7,7 +7,7 @@ module.exports.signup = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
   if (typeof data.email !== 'string' || typeof data.password !== 'string' || typeof data.firstName !== 'string' || typeof data.lastName !== 'string') {
-    console.error('Validation Failed');
+    console.log('Validation Failed');
     callback(null, {
       statusCode: 400,
       headers: {    
@@ -38,7 +38,7 @@ module.exports.signup = (event, context, callback) => {
   // get the user from the database, in case of duplicate user
   db.get(params, (error, result) => {
     if (error) {
-      console.error(error);
+      console.log(error);
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: {    
@@ -64,7 +64,7 @@ module.exports.signup = (event, context, callback) => {
       db.put(params, (errorPut) => {
         // handle potential errors
         if (errorPut) {
-          console.error(errorPut);
+          console.log(errorPut);
           callback(null, {
             statusCode: errorPut.statusCode || 501,
             headers: {    

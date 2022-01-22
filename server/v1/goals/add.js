@@ -7,7 +7,7 @@ module.exports.add = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
   if (typeof data.userId !== 'string' || typeof data.name !== 'string' || typeof data.type !== 'string' || typeof data.targetValue !== 'number') {
-    console.error('Validation Failed');
+    console.log('Validation Failed');
     callback(null, {
       statusCode: 400,
       headers: {    
@@ -36,7 +36,7 @@ module.exports.add = (event, context, callback) => {
   db.put(params, (errorPut) => {
   // handle potential errors
   if (errorPut) {
-    console.error(errorPut);
+    console.log(errorPut);
     callback(null, {
     statusCode: errorPut.statusCode || 501,
     headers: {    
