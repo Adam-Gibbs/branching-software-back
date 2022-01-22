@@ -67,6 +67,7 @@ module.exports.delete = (event, context, callback) => {
             },
             body: JSON.stringify({message: 'Success'}),
           };
+          callback(null, response);
         });
       }
     } catch (e) {
