@@ -4,7 +4,7 @@ const db = require('../../dynamodb');
 
 module.exports.delete = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  if (typeof data.goalId !== 'string' || typeof data.userId !== 'string') {
+  if (typeof data.id !== 'string' || typeof data.userId !== 'string') {
     console.log('Validation Failed');
     callback(null, {
       statusCode: 400,
@@ -20,7 +20,7 @@ module.exports.delete = (event, context, callback) => {
   const params = {
     TableName: process.env.GOALS_TABLE,
     Key: {
-      id: data.goalId,
+      id: data.id,
     },
   };
 
