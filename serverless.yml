@@ -144,6 +144,14 @@ functions:
           method: post
           cors: true
 
+  allAssetTypes:
+    handler: server/v1/asset-types/all.all
+    events:
+      - http:
+          path: v1/asset-types/all
+          method: post
+          cors: true
+
 resources:
   Resources:
     UsersTable:

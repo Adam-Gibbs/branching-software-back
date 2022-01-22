@@ -32,7 +32,7 @@ module.exports.add = (event, context, callback) => {
     },
   };
 
-  // add the asset to the database
+  // add the goal to the database
   db.put(params, (errorPut) => {
   // handle potential errors
   if (errorPut) {
