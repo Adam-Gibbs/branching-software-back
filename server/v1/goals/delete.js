@@ -36,7 +36,7 @@ module.exports.delete = (event, context, callback) => {
     };
 
     if (error) {
-      console.error(error);
+      console.log(error);
       callback(null, response);
       return;
     }
@@ -46,7 +46,7 @@ module.exports.delete = (event, context, callback) => {
         // delete goal from the database
         db.delete(params, (deleteError, deleteResult) => {      
           if (deleteError) {
-            console.error(deleteError);
+            console.log(deleteError);
             callback(null, response);
             return;
           }
