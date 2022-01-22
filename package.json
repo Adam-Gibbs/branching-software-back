@@ -1,6 +1,6 @@
 {
     "name": "branching-software-back",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Serverless REST API for branching.software",
     "dependencies": {
         "uuid": "^2.0.3"

@@ -17,6 +17,7 @@ custom:
   tablePrefix: branching-software-${self:provider.stage}
   usersTable: ${self:custom.tablePrefix}-users-v1
   assetsTable: ${self:custom.tablePrefix}-assets-v1
+  goalsTable: ${self:custom.tablePrefix}-goals-v1
 
   dynamodb:
     start:
@@ -48,6 +49,7 @@ provider:
   environment:
     USERS_TABLE: ${self:custom.usersTable}
     ASSETS_TABLE: ${self:custom.assetsTable}
+    GOALS_TABLE: ${self:custom.goalsTable}
 
 functions:
   signup:
@@ -144,3 +146,32 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.assetsTable}
+
+    GoalsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+          -
+            AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-goal-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.goalsTable}
