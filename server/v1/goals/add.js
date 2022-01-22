@@ -6,7 +6,7 @@ const db = require('../../dynamodb');
 module.exports.add = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string' || typeof data.co2 !== 'number' || typeof data.description !== 'string' || typeof data.eol !== 'number' || typeof data.image !== 'string' || typeof data.location !== 'string' || typeof data.name !== 'string' || typeof data.type !== 'string') {
+  if (typeof data.userId !== 'string' || typeof data.name !== 'string' || typeof data.type !== 'string' || typeof data.targetValue !== 'number') {
     console.error('Validation Failed');
     callback(null, {
       statusCode: 400,
@@ -20,17 +20,13 @@ module.exports.add = (event, context, callback) => {
   }
 
   const params = {
-    TableName: process.env.ASSETS_TABLE,
+    TableName: process.env.GOALS_TABLE,
     Item: {
       id: uuid.v1(),
       userId: data.userId,
-      co2: data.co2,
-      description: data.description,
-      eol: data.eol,
-      image: data.image,
-      location: data.location,
       name: data.name,
       type: data.type,
+      targetValue: data.targetValue,
       createdAt: timestamp,
       updatedAt: timestamp,
     },
@@ -47,7 +43,7 @@ module.exports.add = (event, context, callback) => {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
     },
-    body: JSON.stringify({message: 'Couldn\'t create the asset'}),
+    body: JSON.stringify({message: 'Couldn\'t create the goal'}),
     });
     return;
   }

@@ -92,6 +92,22 @@ functions:
           method: post
           cors: true
 
+  addGoal:
+    handler: server/v1/goals/add.add
+    events:
+      - http:
+          path: v1/goals/add
+          method: post
+          cors: true
+
+  allGoals:
+    handler: server/v1/goals/all.all
+    events:
+      - http:
+          path: v1/goals/all
+          method: post
+          cors: true
+
 resources:
   Resources:
     UsersTable:
