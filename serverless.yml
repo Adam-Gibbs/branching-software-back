@@ -92,14 +92,6 @@ functions:
           method: post
           cors: true
 
-  hi:
-    handler: server/hi.hi
-    events:
-      - http:
-          path: v1/hi
-          method: get
-          cors: true
-
 resources:
   Resources:
     UsersTable:
