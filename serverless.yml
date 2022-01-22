@@ -108,6 +108,14 @@ functions:
           method: post
           cors: true
 
+  deleteGoal:
+    handler: server/v1/goals/delete.delete
+    events:
+      - http:
+          path: v1/goals/delete
+          method: post
+          cors: true
+
 resources:
   Resources:
     UsersTable:
