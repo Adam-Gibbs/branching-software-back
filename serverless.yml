@@ -136,6 +136,14 @@ functions:
           method: post
           cors: true
 
+  addAssetType:
+    handler: server/v1/asset-types/add.add
+    events:
+      - http:
+          path: v1/asset-types/add
+          method: post
+          cors: true
+
 resources:
   Resources:
     UsersTable:
