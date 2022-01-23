@@ -38,7 +38,7 @@ function add(value, userId, callback) {
 function complete(data, carry) {
   if (data.statusCode === 201) {
     if (carry.value === 0) {
-      sr.sendResponse({statusCode: 201, return: {message: 'Success', result: params.Item}}, carry.callback);
+      sr.sendResponse({statusCode: 201, return: {message: 'Success'}}, carry.callback);
     } else {
       add(carry.value - 1, carry.userId, carry.callback);
     }
