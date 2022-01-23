@@ -2,102 +2,71 @@
 
 const db = require('../../dynamodb');
 
-function checkExists(userId, success, failure, callback) {
-  // const params = {
-  //   TableName: process.env.USERS_TABLE,
-  //   IndexName: 'userId-user-index',
-  //   KeyConditionExpression: 'id = :u',
-  //   ExpressionAttributeValues: {
-  //     ':u': userId
-  //   }
-  // };
-
-  // // get the user from the database
-  // db.query(params).then((error, result) => {
-  //   console.log(result)
-  //   if (error) {
-  //     console.log(error);
-  //     failure(callback);
-  //   } else if (result.Items.length > 0) {
-  //     success(userId, callback);
-  //   } else {
-  //     failure(callback);
-  //   }
-  // });
-  success(userId, callback);
-}
-
-function noUser(callback) {
-  callback(null, {
-    statusCode: 401,
-    headers: {    
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    },
-    body: JSON.stringify({message: 'User does not exist'}),
-  });
-}
-
-function updateUser(userId, callback) {
-  const params = {
+module.exports.add = (event, context, callback) => {
+  var params = {
     TableName: process.env.USERS_TABLE,
     IndexName: 'userId-user-index',
     KeyConditionExpression: 'id = :u',
-    UpdateExpression: "set update = :value",
     ExpressionAttributeValues:{
-          ':u': userId,
-          ":value": true
-        },
+      ':u': userId,
+    },
   };
 
-  db.update(params, (error, result) => {
-    let response = {
-      statusCode: 401,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Incorrect Username/Password'}),
-    };
-
-    if (error) {
-      console.log("II")
-      console.log(error);
-      callback(null, response);
-      return;
-    }
-
-    try {
-      response = {
-        statusCode: 201,
+  db.query(params, function (err, result) {
+    if (err) {
+      console.log(err);
+      callback(null, {
+        statusCode: err.statusCode || 501,
         headers: {    
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
         },
-        body: JSON.stringify({message: 'Success', result: result.Item}),
+        body: JSON.stringify({message: 'There has been an error accessing the user'}),
+      });
+    } else if ( result.Items.length === 0) {
+      console.log(err);
+      callback(null, {
+        statusCode: 401,
+        headers: {    
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+        body: JSON.stringify({message: 'This user does not exist'}),
+      });
+    } else {
+      var paramsUpdate = {
+        TableName: process.env.USERS_TABLE,
+        Key: {
+          "email": result.Items[0].email
+        },
+        UpdateExpression: "set upade = :value",
+        ExpressionAttributeValues: {
+          ":value": true
+        },
+        ReturnValues: "UPDATED_NEW"
       };
-    } catch (e) {
-      console.log(e);
-    } finally {
-      callback(null, response);
+      db.update(paramsUpdate, function (errUpdate, data) {
+        if (errUpdate) {
+          console.log(errUpdate)
+          callback(null, {
+            statusCode: errUpdate.statusCode || 501,
+            headers: {    
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+            },
+            body: JSON.stringify({message: 'Couldn\'t update the user'}),
+          });
+        } else {
+          callback(null, {
+            statusCode: 201,
+            headers: {    
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+            },
+            body: JSON.stringify({message: 'Success', result: data.Item}),
+          });
+        }
+      });
     }
   });
-}
-
-module.exports.add = (event, context, callback) => {
-  const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string' || typeof data.name !== 'string') {
-    console.log('Validation Failed');
-    callback(null, {
-      statusCode: 400,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Invalid data'}),
-    });
-    return;
-  }
-  
-  checkExists(data.userId, updateUser, noUser, callback);
 };
