@@ -30,13 +30,28 @@ module.exports.signin = (event, context, callback) => {
         return;
       }
 
-      sr.sendResponse(
-        {
-          statusCode: 201,
-          return: {message: 'Success', result: result}
-        },
-        callback
-      );
+      try {
+        if (result.Items.length > 0 && result.Items[0].password === data.password) {        
+          sr.sendResponse(
+            {
+              statusCode: 201,
+              return: {message: 'Success', result: result}
+            },
+            callback
+          );
+          return;
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        sr.sendResponse(
+          {
+            statusCode: 401,
+            return: {message: `Incorrect email or password`}
+          },
+          callback
+        );
+      }
     });
   }
 };
