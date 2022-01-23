@@ -21,9 +21,10 @@ function checkExists(userId) {
       return false;
     }
     console.log("F")
+    console.log(result.Items)
 
     try {
-      if (result.Item.userId === userId) {
+      if (result.Items.length > 0) {
         console.log("G")
         return true;
       }
