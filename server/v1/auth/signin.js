@@ -30,6 +30,11 @@ module.exports.signin = (event, context, callback) => {
         return;
       }
 
+      console.log("AAAA");
+      console.log(result);
+      console.log(result.Items);
+      console.log(result.Items[0]);
+
       try {
         if (result.Items[0].password === data.password) {
           sr.sendResponse(

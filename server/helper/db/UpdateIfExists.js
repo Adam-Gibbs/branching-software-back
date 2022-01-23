@@ -3,7 +3,7 @@
 const helper = require('./CheckExists');
 const db = require('../../database/dynamodb');
 
-module.exports.deleteIfExists = (table, data, search, complete, name, callback) => {
+module.exports.updateIfExists = (table, data, search, name, complete, callback) => {
   helper.checkExists(
     table, 
     search,
