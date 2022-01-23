@@ -1,64 +1,38 @@
 'use strict';
 
-const uuid = require('uuid');
-const db = require('../../dynamodb');
+import { validateRequest } from '../../helper/ValidateRequest';
+import { sendResponse } from '../../helper/SendResponse';
+import { add } from '../../helper/db/Add';
 
-module.exports.add = (event, context, callback) => {
-  const timestamp = new Date().getTime();
+export function addAsset(event, context, callback) {
   const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string' || typeof data.co2 !== 'number' || typeof data.description !== 'string' || typeof data.eol !== 'number' || typeof data.image !== 'string' || typeof data.location !== 'string' || typeof data.name !== 'string' || typeof data.type !== 'string') {
-    console.log('Validation Failed');
-    callback(null, {
-      statusCode: 400,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Invalid data'}),
-    });
-    return;
-  }
+  if (validateRequest(
+      data,
+      [
+        {name: 'userId', type: 'string'},
+        {name: 'co2', type: 'number'},
+        {name: 'description', type: 'string'},
+        {name: 'location', type: 'string'},
+        {name: 'eol', type: 'number'},
+        {name: 'image', type: 'string'},
+        {name: 'name', type: 'string'},
+        {name: 'type', type: 'string'},
+      ],
+      sendResponse,
+      callback
+    )) 
+    {
+      const params = {
+        userId: data.userId,
+        co2: data.co2,
+        description: data.description,
+        eol: data.eol,
+        image: data.image,
+        location: data.location,
+        name: data.name,
+        type: data.type,
+      };
 
-  const params = {
-    TableName: process.env.ASSETS_TABLE,
-    Item: {
-      id: uuid.v1(),
-      userId: data.userId,
-      co2: data.co2,
-      description: data.description,
-      eol: data.eol,
-      image: data.image,
-      location: data.location,
-      name: data.name,
-      type: data.type,
-      createdAt: timestamp,
-      updatedAt: timestamp,
-    },
-  };
-
-  // add the asset to the database
-  db.put(params, (errorPut) => {
-  // handle potential errors
-  if (errorPut) {
-    console.log(errorPut);
-    callback(null, {
-    statusCode: errorPut.statusCode || 501,
-    headers: {    
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    },
-    body: JSON.stringify({message: 'Couldn\'t create the asset'}),
-    });
-    return;
-  }
-
-    callback(null, {
-      statusCode: 201,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Success', result: params.Item}),
-    });
-  });
-};
+      add(process.env.ASSETS_TABLE, params, sendResponse, callback)
+    }
+}
