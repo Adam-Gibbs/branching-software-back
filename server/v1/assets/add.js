@@ -33,6 +33,6 @@ module.exports.addAsset = (event, context, callback)  =>  {
         type: data.type,
       };
 
-      add(process.env.ASSETS_TABLE, params, sr.sendResponse, callback)
+      db.add(process.env.ASSETS_TABLE, params, sr.sendResponse, callback)
     }
 };
