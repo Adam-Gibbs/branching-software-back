@@ -2,7 +2,7 @@
 
 const db = require('../../dynamodb');
 
-function checkExists(userId) {
+async function checkExists(userId) {
   console.log("D");
   const params = {
     TableName: process.env.USERS_TABLE,
@@ -29,11 +29,11 @@ function checkExists(userId) {
         return true;
       }
     } catch (f) {
+      console.log("GGG")
       console.log(f);
+      return false;
     }
   });
-  console.log("GG")
-  return false;
 }
 
 module.exports.add = (event, context, callback) => {
@@ -64,7 +64,7 @@ module.exports.add = (event, context, callback) => {
   };
   console.log("C")
 
-  if (checkExists(data.userId)) {
+  if (await checkExists(data.userId)) {
     console.log("H")
     // get the user from the database
     db.update(params, (error, result) => {
