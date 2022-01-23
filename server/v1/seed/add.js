@@ -35,10 +35,9 @@ function checkExists(userId) {
   return false;
 }
 
-module.exports.signin = (event, context, callback) => {
+module.exports.add = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  console.log("A")
-  if (typeof data.userId !== 'string') {
+  if (typeof data.userId !== 'string' || typeof data.name !== 'string') {
     console.log('Validation Failed');
     callback(null, {
       statusCode: 400,
