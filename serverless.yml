@@ -15,7 +15,7 @@ package:
 
 custom:
   tablePrefix: branching-software-${self:provider.stage}
-  usersTable: ${self:custom.tablePrefix}-users-v1
+  usersTable: ${self:custom.tablePrefix}-users-v2
   assetsTable: ${self:custom.tablePrefix}-assets-v1
   goalsTable: ${self:custom.tablePrefix}-goals-v1
   locationsTable: ${self:custom.tablePrefix}-locations-v1
@@ -175,19 +175,19 @@ resources:
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: email
+            AttributeName: id
             AttributeType: S
           -
-            AttributeName: id
+            AttributeName: email
             AttributeType: S
         KeySchema:
           -
-            AttributeName: email
+            AttributeName: id
             KeyType: HASH
         GlobalSecondaryIndexes:
-          - IndexName: userId-user-index
+          - IndexName: email-user-index
             KeySchema:
-              - AttributeName: id
+              - AttributeName: email
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
