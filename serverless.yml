@@ -160,14 +160,6 @@ functions:
           method: post
           cors: true
 
-  seedBasic:
-    handler: server/v1/seed/basicData.updateUser
-    events:
-      - http:
-          path: v1/seed/basic
-          method: post
-          cors: true
-
 resources:
   Resources:
     UsersTable:
