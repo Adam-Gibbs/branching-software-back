@@ -30,40 +30,13 @@ module.exports.signin = (event, context, callback) => {
         return;
       }
 
-      checkResponse(result);
-    });
-  }
-};
-
-function checkResponse(response) {
-  try {
-    if (response.Items.length > 0) {
-      if (response.Items[0].password === 'data.password') {
-        sr.sendResponse(
-          {
-            statusCode: 201,
-            return: {message: 'Success', result: result.Items}
-          },
-          callback
-        );
-      }
-    } else {
       sr.sendResponse(
         {
-          statusCode: 401,
-          return: {message: `Incorrect Username/Password`}
+          statusCode: 201,
+          return: {message: 'Success', result: result}
         },
         callback
       );
-    }
-  } catch (e) {
-    console.log(e);
-    sr.sendResponse(
-      {
-        statusCode: 501,
-        return: {message: `An error occurred, please try again`}
-      },
-      callback
-    );
+    });
   }
-}
+};
