@@ -58,13 +58,27 @@ module.exports.updateUser = (event, context, callback) => {
             body: JSON.stringify({message: 'Couldn\'t update the user'}),
           });
         } else {
-          callback(null, {
-            statusCode: 201,
-            headers: {    
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Credentials': true,
-            },
-            body: JSON.stringify({message: 'Success', result: updateReturn}),
+          db.query(params, function (error, finalResult) {
+            if (error) {
+              console.log(err);
+              callback(null, {
+                statusCode: err.statusCode || 501,
+                headers: {    
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials': true,
+                },
+                body: JSON.stringify({message: 'There has been an error accessing the user'}),
+              });
+            } else {
+              callback(null, {
+                statusCode: 201,
+                headers: {    
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials': true,
+                },
+                body: JSON.stringify({message: 'Success', result: finalResult}),
+              });
+            }
           });
         }
       });
