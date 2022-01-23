@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../../dynamodb');
+const db = require('../../database/dynamodb');
 
 module.exports.signin = (event, context, callback) => {
   const data = JSON.parse(event.body);
