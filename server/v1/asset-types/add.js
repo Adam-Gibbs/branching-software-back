@@ -6,7 +6,7 @@ const db = require('../../helper/db/Add');
 
 module.exports.addAssetType = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  if (vr.validateRequest(data, [{name: 'userId', type: 'string'}], sr.sendResponse, callback)) {
+  if (vr.validateRequest(data, [{name: 'userId', type: 'string'}, {name: 'name', type: 'string'}], sr.sendResponse, callback)) {
     const params = {
       userId: data.userId,
       name: data.name,

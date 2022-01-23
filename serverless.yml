@@ -121,7 +121,7 @@ functions:
           cors: true
 
   addLocation:
-    handler: server/v1/locations/add.add
+    handler: server/v1/locations/add.addLocation
     events:
       - http:
           path: v1/locations/add
@@ -129,7 +129,7 @@ functions:
           cors: true
 
   allLocations:
-    handler: server/v1/locations/all.all
+    handler: server/v1/locations/all.allLocations
     events:
       - http:
           path: v1/locations/all
