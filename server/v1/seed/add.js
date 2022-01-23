@@ -3,14 +3,16 @@
 const db = require('../../dynamodb');
 
 function checkExists(userId) {
+  console.log("D");
   const params = {
-    TableName: USERS_TABLE,
+    TableName: process.env.USERS_TABLE,
     IndexName: 'userId-user-index',
     KeyConditionExpression: 'id = :u',
     ExpressionAttributeValues: {
       ':u': userId
     }
   };
+  console.log("E")
 
   // get the user from the database
   db.query(params, (error, result) => {
@@ -18,20 +20,24 @@ function checkExists(userId) {
       console.log(error);
       return false;
     }
+    console.log("F")
 
     try {
       if (result.Item.userId === userId) {
+        console.log("G")
         return true;
       }
     } catch (f) {
       console.log(f);
     }
   });
+  console.log("GG")
   return false;
 }
 
 module.exports.signin = (event, context, callback) => {
   const data = JSON.parse(event.body);
+  console.log("A")
   if (typeof data.userId !== 'string') {
     console.log('Validation Failed');
     callback(null, {
@@ -44,9 +50,10 @@ module.exports.signin = (event, context, callback) => {
     });
     return;
   }
+  console.log("B")
 
   const params = {
-    TableName: USERS_TABLE,
+    TableName: process.env.USERS_TABLE,
     IndexName: 'userId-user-index',
     KeyConditionExpression: 'id = :u',
     UpdateExpression: "set update = :value",
@@ -55,8 +62,10 @@ module.exports.signin = (event, context, callback) => {
           ":value": true
         },
   };
+  console.log("C")
 
   if (checkExists(data.userId)) {
+    console.log("H")
     // get the user from the database
     db.update(params, (error, result) => {
       let response = {
@@ -67,12 +76,15 @@ module.exports.signin = (event, context, callback) => {
         },
         body: JSON.stringify({message: 'Incorrect Username/Password'}),
       };
+      console.log("I")
 
       if (error) {
+        console.log("II")
         console.log(error);
         callback(null, response);
         return;
       }
+      console.log("J")
 
       try {
         response = {
@@ -83,13 +95,17 @@ module.exports.signin = (event, context, callback) => {
           },
           body: JSON.stringify({message: 'Success', result: result.Item}),
         };
+        console.log("K")
       } catch (g) {
         console.log(g);
+        console.log("L")
       } finally {
+        console.log("M")
         callback(null, response);
       }
     });
   } else {
+    console.log("P")
     callback(null, {
       statusCode: 401,
       headers: {    
