@@ -1,60 +1,30 @@
 'use strict';
 
-const uuid = require('uuid');
-const db = require('../../dynamodb');
+const vr = require('../../helper/ValidateRequest');
+const sr = require('../../helper/SendResponse');
+const db = require('../../helper/db/Add');
 
-module.exports.add = (event, context, callback) => {
-  const timestamp = new Date().getTime();
+module.exports.addGoal = (event, context, callback)  =>  {
   const data = JSON.parse(event.body);
-  if (typeof data.userId !== 'string' || typeof data.name !== 'string' || typeof data.type !== 'string' || typeof data.targetValue !== 'number') {
-    console.log('Validation Failed');
-    callback(null, {
-      statusCode: 400,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Invalid data'}),
-    });
-    return;
-  }
+  if (vr.validateRequest(
+      data,
+      [
+        {name: 'userId', type: 'string'},
+        {name: 'targetValue', type: 'number'},
+        {name: 'name', type: 'string'},
+        {name: 'type', type: 'string'},
+      ],
+      sr.sendResponse,
+      callback
+    )) 
+    {
+      const params = {
+        userId: data.userId,
+        name: data.name,
+        type: data.type,
+        targetValue: data.targetValue,
+      };
 
-  const params = {
-    TableName: process.env.GOALS_TABLE,
-    Item: {
-      id: uuid.v1(),
-      userId: data.userId,
-      name: data.name,
-      type: data.type,
-      targetValue: data.targetValue,
-      createdAt: timestamp,
-      updatedAt: timestamp,
-    },
-  };
-
-  // add the goal to the database
-  db.put(params, (errorPut) => {
-  // handle potential errors
-  if (errorPut) {
-    console.log(errorPut);
-    callback(null, {
-    statusCode: errorPut.statusCode || 501,
-    headers: {    
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    },
-    body: JSON.stringify({message: 'Couldn\'t create the goal'}),
-    });
-    return;
-  }
-
-    callback(null, {
-      statusCode: 201,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Success', result: params.Item}),
-    });
-  });
+      db.add(process.env.GOALS_TABLE, params, sr.sendResponse, callback)
+    }
 };

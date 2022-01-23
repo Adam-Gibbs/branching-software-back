@@ -1,10 +1,10 @@
 'use strict';
 
-const helper = require('./CheckExists');
+const helper = require('./CheckExistsById');
 const db = require('../../database/dynamodb');
 
-module.exports.deleteIfExists = (table, data, search, complete, name, callback) => {
-  helper.checkExists(
+module.exports.deleteIfExists = (table, search, complete, name, callback) => {
+  helper.checkExistsById(
     table, 
     search,
     function(){
@@ -19,7 +19,7 @@ module.exports.deleteIfExists = (table, data, search, complete, name, callback) 
     function(){
       deleteAction(
         table,
-        data,
+        search,
         complete,
         callback
       )
@@ -36,11 +36,11 @@ module.exports.deleteIfExists = (table, data, search, complete, name, callback) 
   );
 };
 
-function deleteAction(table, data, complete, callback) {
+function deleteAction(table, search, complete, callback) {
   const params = {
     TableName: table,
     Key: {
-      ...data,
+      ...search,
     },
   };
 

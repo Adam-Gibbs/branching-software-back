@@ -97,7 +97,7 @@ functions:
           cors: true
 
   addGoal:
-    handler: server/v1/goals/add.add
+    handler: server/v1/goals/add.addGoal
     events:
       - http:
           path: v1/goals/add
@@ -105,7 +105,7 @@ functions:
           cors: true
 
   allGoals:
-    handler: server/v1/goals/all.all
+    handler: server/v1/goals/all.allGoals
     events:
       - http:
           path: v1/goals/all
@@ -113,7 +113,7 @@ functions:
           cors: true
 
   deleteGoal:
-    handler: server/v1/goals/delete.delete
+    handler: server/v1/goals/delete.deleteGoal
     events:
       - http:
           path: v1/goals/delete
@@ -137,7 +137,7 @@ functions:
           cors: true
 
   addAssetType:
-    handler: server/v1/asset-types/add.add
+    handler: server/v1/asset-types/add.addAssetType
     events:
       - http:
           path: v1/asset-types/add
@@ -145,7 +145,7 @@ functions:
           cors: true
 
   allAssetTypes:
-    handler: server/v1/asset-types/all.all
+    handler: server/v1/asset-types/all.allAssetTypes
     events:
       - http:
           path: v1/asset-types/all
