@@ -3,12 +3,13 @@
 const db = require('../../dynamodb');
 
 module.exports.add = (event, context, callback) => {
+  const data = JSON.parse(event.body);
   var params = {
     TableName: process.env.USERS_TABLE,
     IndexName: 'userId-user-index',
     KeyConditionExpression: 'id = :u',
     ExpressionAttributeValues:{
-      ':u': userId,
+      ':u': data.userId,
     },
   };
 
