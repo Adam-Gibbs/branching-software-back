@@ -2,7 +2,7 @@
 
 const vr = require('../../helper/ValidateRequest');
 const sr = require('../../helper/SendResponse');
-const db = require('../../helper/db/getItemById');
+const db = require('../../helper/db/GetItemById');
 
 module.exports.getAsset = (event, context, callback) => {
   const data = JSON.parse(event.body);
