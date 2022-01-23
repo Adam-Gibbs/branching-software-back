@@ -152,6 +152,14 @@ functions:
           method: post
           cors: true
 
+  seedUser:
+    handler: server/v1/seed/add.add
+    events:
+      - http:
+          path: v1/seed
+          method: post
+          cors: true
+
 resources:
   Resources:
     UsersTable:
