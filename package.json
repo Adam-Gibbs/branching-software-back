@@ -1,8 +1,9 @@
 {
     "name": "branching-software-back",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "Serverless REST API for branching.software",
     "dependencies": {
+        "@ngneat/falso": "^2.13.0",
         "uuid": "^2.0.3"
     },
     "devDependencies": {
