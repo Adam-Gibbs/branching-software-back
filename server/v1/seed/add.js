@@ -13,7 +13,7 @@ function checkExists(userId) {
   };
 
   // get the user from the database
-  db.get(params, (error, result) => {
+  db.query(params, (error, result) => {
     if (error) {
       console.log(error);
       return false;
