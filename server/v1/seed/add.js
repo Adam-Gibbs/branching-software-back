@@ -23,8 +23,8 @@ function checkExists(userId) {
       if (result.Item.userId === userId) {
         return true;
       }
-    } catch (e) {
-      console.log(e);
+    } catch (f) {
+      console.log(f);
     }
   });
   return false;
@@ -83,8 +83,8 @@ module.exports.signin = (event, context, callback) => {
           },
           body: JSON.stringify({message: 'Success', result: result.Item}),
         };
-      } catch (e) {
-        console.log(e);
+      } catch (g) {
+        console.log(g);
       } finally {
         callback(null, response);
       }
