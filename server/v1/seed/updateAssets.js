@@ -13,26 +13,19 @@ module.exports.updateGoals = (event, context, callback)  =>  {
 };
 
 function add(value, userId, callback) {
-  var types = [
-    'Assets Nearing EOL',
-    'Average Time Between Actions',
-    'Days Since Last Action',
-    'Difference to Target Estimate',
-    'Number of Ongoing Projects',
-    'Possible Daily Savings',
-    'Registered Assets',
-    'Total Assets Replaced',
-    'Total Carbon Emissions',
-  ];
-
+  const item = faker.randProduct()
   const params = {
     userId: userId,
-    name: faker.randQuote(),
-    type: types[Math.floor(Math.random() * types.length)],
-    targetValue: faker.randNumber({ min: 10, max: 1000 }),
+    co2: item.price,
+    description: item.description,
+    eol: faker.randFutureDate(),
+    image: "",
+    location: faker.randCity(),
+    name: item.title,
+    type: item.category,
   };
 
-  db.add(process.env.GOALS_TABLE, params, complete, {value: value, userId: userId, callback: callback});
+  db.add(process.env.ASSETS_TABLE, params, complete, {value: value, userId: userId, callback: callback});
 }
 
 function complete(data, carry) {
