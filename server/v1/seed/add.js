@@ -3,28 +3,28 @@
 const db = require('../../dynamodb');
 
 function checkExists(userId, success, failure, callback) {
-  console.log("D");
-  const params = {
-    TableName: process.env.USERS_TABLE,
-    IndexName: 'userId-user-index',
-    KeyConditionExpression: 'id = :u',
-    ExpressionAttributeValues: {
-      ':u': userId
-    }
-  };
+  // const params = {
+  //   TableName: process.env.USERS_TABLE,
+  //   IndexName: 'userId-user-index',
+  //   KeyConditionExpression: 'id = :u',
+  //   ExpressionAttributeValues: {
+  //     ':u': userId
+  //   }
+  // };
 
-  // get the user from the database
-  db.query(params).then((error, result) => {
-    console.log(result)
-    if (error) {
-      console.log(error);
-      failure(callback);
-    } else if (result.Items.length > 0) {
-      success(userId, callback);
-    } else {
-      failure(callback);
-    }
-  });
+  // // get the user from the database
+  // db.query(params).then((error, result) => {
+  //   console.log(result)
+  //   if (error) {
+  //     console.log(error);
+  //     failure(callback);
+  //   } else if (result.Items.length > 0) {
+  //     success(userId, callback);
+  //   } else {
+  //     failure(callback);
+  //   }
+  // });
+  success(userId, callback);
 }
 
 function noUser(callback) {
