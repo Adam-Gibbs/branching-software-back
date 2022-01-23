@@ -36,7 +36,7 @@ module.exports.signin = (event, context, callback) => {
       console.log(result.Items[0]);
 
       try {
-        if ('result.Items[0].password' === 'data.password') {
+        if (result.Items[0].password === 'data.password') {
           sr.sendResponse(
             {
               statusCode: 201,
