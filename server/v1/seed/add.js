@@ -2,7 +2,7 @@
 
 const db = require('../../dynamodb');
 
-async function checkExists(userId) {
+function checkExists(userId, success, failure, callback) {
   console.log("D");
   const params = {
     TableName: process.env.USERS_TABLE,
@@ -12,21 +12,74 @@ async function checkExists(userId) {
       ':u': userId
     }
   };
-  console.log("E")
 
   // get the user from the database
   db.queryAsync(params).then((error, result) => {
     console.log(result)
     if (error) {
       console.log(error);
-      console.log("F")
-      return false;
+      failure(callback);
     } else if (result.Items.length > 0) {
-      console.log("G")
-      return true;
+      success(userId, callback);
     } else {
-      console.log("GG")
-      return false;
+      failure(callback);
+    }
+  });
+}
+
+function noUser(callback) {
+  callback(null, {
+    statusCode: 401,
+    headers: {    
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
+    body: JSON.stringify({message: 'User does not exist'}),
+  });
+}
+
+function updateUser(userId, callback) {
+  const params = {
+    TableName: process.env.USERS_TABLE,
+    IndexName: 'userId-user-index',
+    KeyConditionExpression: 'id = :u',
+    UpdateExpression: "set update = :value",
+    ExpressionAttributeValues:{
+          ':u': userId,
+          ":value": true
+        },
+  };
+
+  db.update(params, (error, result) => {
+    let response = {
+      statusCode: 401,
+      headers: {    
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: JSON.stringify({message: 'Incorrect Username/Password'}),
+    };
+
+    if (error) {
+      console.log("II")
+      console.log(error);
+      callback(null, response);
+      return;
+    }
+
+    try {
+      response = {
+        statusCode: 201,
+        headers: {    
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+        body: JSON.stringify({message: 'Success', result: result.Item}),
+      };
+    } catch (e) {
+      console.log(e);
+    } finally {
+      callback(null, response);
     }
   });
 }
@@ -45,69 +98,6 @@ module.exports.add = (event, context, callback) => {
     });
     return;
   }
-  console.log("B")
-
-  const params = {
-    TableName: process.env.USERS_TABLE,
-    IndexName: 'userId-user-index',
-    KeyConditionExpression: 'id = :u',
-    UpdateExpression: "set update = :value",
-    ExpressionAttributeValues:{
-          ':u': data.userId,
-          ":value": true
-        },
-  };
-  console.log("C")
-
-  if (await checkExists(data.userId)) {
-    console.log("H")
-    // get the user from the database
-    db.update(params, (error, result) => {
-      let response = {
-        statusCode: 401,
-        headers: {    
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        body: JSON.stringify({message: 'Incorrect Username/Password'}),
-      };
-      console.log("I")
-
-      if (error) {
-        console.log("II")
-        console.log(error);
-        callback(null, response);
-        return;
-      }
-      console.log("J")
-
-      try {
-        response = {
-          statusCode: 201,
-          headers: {    
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-          },
-          body: JSON.stringify({message: 'Success', result: result.Item}),
-        };
-        console.log("K")
-      } catch (g) {
-        console.log(g);
-        console.log("L")
-      } finally {
-        console.log("M")
-        callback(null, response);
-      }
-    });
-  } else {
-    console.log("P")
-    callback(null, {
-      statusCode: 401,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'User does not exist'}),
-    });
-  }
+  
+  checkExists(data.userId, updateUser, noUser, callback);
 };
