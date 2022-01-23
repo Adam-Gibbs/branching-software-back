@@ -1,8 +1,8 @@
 'use strict';
 
-import { query } from '../../database/dynamodb';
+const db = require('../../database/dynamodb');
 
-export function getAllByIndex(table, search, complete, callback) {
+module.exports.getAllByIndex = (table, search, complete, callback) => {
   const params = {
     TableName: table,
     IndexName: search.index,
@@ -13,7 +13,7 @@ export function getAllByIndex(table, search, complete, callback) {
   };
 
   // get all items from the database
-  query(params, (error, result) => {
+  db.query(params, (error, result) => {
     if (error) {
       console.log(error);
       complete(
@@ -28,4 +28,4 @@ export function getAllByIndex(table, search, complete, callback) {
     
     complete({statusCode: 201, return: {message: 'Success', result: result.Items}}, callback);
   });
-}
+};

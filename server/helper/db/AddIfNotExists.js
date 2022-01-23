@@ -1,10 +1,10 @@
 'use strict';
 
-import { checkExists } from './CheckExists';
-import { add } from './Add';
+const helper = require('./CheckExists');
+const db = require('./Add');
 
-export function addIfNotExists(table, data, search, complete, name, callback) {
-  checkExists(
+module.exports.addIfNotExists = (table, data, search, complete, name, callback) => {
+  helper.checkExists(
     table, 
     search,
     function(){
@@ -26,7 +26,7 @@ export function addIfNotExists(table, data, search, complete, name, callback) {
       )
     },
     function(){
-      add(table, data, complete, callback)
+      db.add(table, data, complete, callback)
     }
   );
-}
+};

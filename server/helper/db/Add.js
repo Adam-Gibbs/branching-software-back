@@ -1,15 +1,15 @@
 'use strict';
 
-import { v1 } from 'uuid';
-import { put } from '../../database/dynamodb';
+const uuid = require('uuid');
+const db = require('../../database/dynamodb');
 
-export function add(table, data, complete, callback) {
+module.exports.add = (table, data, complete, callback) => {
   const timestamp = new Date().getTime();
 
   const params = {
     TableName: table,
     Item: {
-      id: v1(),
+      id: uuid.v1(),
       createdAt: timestamp,
       updatedAt: timestamp,
       ...data,
@@ -17,7 +17,7 @@ export function add(table, data, complete, callback) {
   };
 
   // add the item to the database
-  put(params, (error) => {
+  db.put(params, (error) => {
     // handle potential errors
     if (error) {
         console.log(error);
@@ -33,4 +33,4 @@ export function add(table, data, complete, callback) {
 
     complete({statusCode: 201, return: {message: 'Success', result: params.Item}}, callback);
   });
-}
+};

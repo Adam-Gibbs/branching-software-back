@@ -1,12 +1,12 @@
 'use strict';
 
-import { validateRequest } from '../../helper/ValidateRequest';
-import { sendResponse } from '../../helper/SendResponse';
-import { getAllByIndex } from '../../helper/db/GetAllByIndex';
+const vr = require('../../helper/ValidateRequest');
+const sr = require('../../helper/SendResponse');
+const db = require('../../helper/db/GetAllByIndex');
 
-export function allAssets(event, context, callback) {
+module.exports.allAssets = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  if (validateRequest(data, [{name: 'userId', type: 'string'}], sendResponse, callback)) {
-    getAllByIndex(process.env.ASSETS_TABLE, {index: 'userId-asset-index', search: 'userId', searchItem: 'data.userId'}, sendResponse, callback);
+  if (vr.validateRequest(data, [{name: 'userId', type: 'string'}], sr.sendResponse, callback)) {
+    db.getAllByIndex(process.env.ASSETS_TABLE, {index: 'userId-asset-index', search: 'userId', searchItem: 'data.userId'}, sr.sendResponse, callback);
   }
-}
+};

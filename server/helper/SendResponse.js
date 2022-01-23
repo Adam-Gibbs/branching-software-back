@@ -1,6 +1,6 @@
 'use strict';
 
-export function sendResponse(data, callback) {
+module.exports.sendResponse = (data, callback) => {
   callback(null, {
     statusCode: data.statusCode,
     headers: {    
@@ -9,4 +9,4 @@ export function sendResponse(data, callback) {
     },
     body: JSON.stringify(data.return),
   });
-}
+};

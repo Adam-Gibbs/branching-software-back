@@ -1,9 +1,10 @@
 'use strict';
 
-import { checkExists } from './CheckExists';
+const helper = require('./CheckExists');
+const db = require('../../database/dynamodb');
 
-export function deleteIfExists(table, data, search, complete, name, callback) {
-  checkExists(
+module.exports.deleteIfExists = (table, data, search, complete, name, callback) => {
+  helper.checkExists(
     table, 
     search,
     function(){
@@ -33,7 +34,7 @@ export function deleteIfExists(table, data, search, complete, name, callback) {
       )
     }
   );
-}
+};
 
 function deleteAction(table, data, complete, callback) {
   const params = {

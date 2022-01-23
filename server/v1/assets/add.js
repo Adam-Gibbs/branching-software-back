@@ -1,12 +1,12 @@
 'use strict';
 
-import { validateRequest } from '../../helper/ValidateRequest';
-import { sendResponse } from '../../helper/SendResponse';
-import { add } from '../../helper/db/Add';
+const vr = require('../../helper/ValidateRequest');
+const sr = require('../../helper/SendResponse');
+const db = require('../../helper/db/Add');
 
-export function addAsset(event, context, callback) {
+module.exports.addAsset = (event, context, callback)  =>  {
   const data = JSON.parse(event.body);
-  if (validateRequest(
+  if (vr.validateRequest(
       data,
       [
         {name: 'userId', type: 'string'},
@@ -18,7 +18,7 @@ export function addAsset(event, context, callback) {
         {name: 'name', type: 'string'},
         {name: 'type', type: 'string'},
       ],
-      sendResponse,
+      sr.sendResponse,
       callback
     )) 
     {
@@ -33,6 +33,6 @@ export function addAsset(event, context, callback) {
         type: data.type,
       };
 
-      add(process.env.ASSETS_TABLE, params, sendResponse, callback)
+      add(process.env.ASSETS_TABLE, params, sr.sendResponse, callback)
     }
-}
+};

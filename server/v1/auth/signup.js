@@ -1,9 +1,9 @@
 'use strict';
 
-const uuid = require('uuid');
-const db = require('../../database/dynamodb');
+import { v1 } from 'uuid';
+import { get, put } from '../../database/dynamodb';
 
-module.exports.signup = (event, context, callback) => {
+module.exports.signup(event, context, callback) {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
   if (typeof data.email !== 'string' || typeof data.password !== 'string' || typeof data.firstName !== 'string' || typeof data.lastName !== 'string') {
@@ -25,7 +25,7 @@ module.exports.signup = (event, context, callback) => {
       email: data.email,
     },
     Item: {
-      id: uuid.v1(),
+      id: v1(),
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -38,7 +38,7 @@ module.exports.signup = (event, context, callback) => {
   };
 
   // get the user from the database, in case of duplicate user
-  db.get(params, (error, result) => {
+  get(params, (error, result) => {
     if (error) {
       console.log(error);
       callback(null, {
@@ -63,7 +63,7 @@ module.exports.signup = (event, context, callback) => {
       });
     } else {
       // write the user to the database
-      db.put(params, (errorPut) => {
+      put(params, (errorPut) => {
         // handle potential errors
         if (errorPut) {
           console.log(errorPut);
@@ -89,4 +89,4 @@ module.exports.signup = (event, context, callback) => {
       });
     }
   });
-};
+}

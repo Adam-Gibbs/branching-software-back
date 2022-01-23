@@ -1,8 +1,8 @@
 'use strict';
 
-import { query } from '../../database/dynamodb';
+const db = require('../../database/dynamodb');
 
-export function checkExists(table, search, failure, exists, notExists) {
+module.exports.checkExists = (table, search, failure, exists, notExists) => {
   const params = {
     TableName: table,
     IndexName: search.index,
@@ -13,7 +13,7 @@ export function checkExists(table, search, failure, exists, notExists) {
   };
 
   // get all items from the database
-  query(params, (error, result) => {
+  db.query(params, (error, result) => {
     if (error) {
       console.log(error);
       failure();
@@ -33,4 +33,4 @@ export function checkExists(table, search, failure, exists, notExists) {
       failure();
     }
   });
-}
+};

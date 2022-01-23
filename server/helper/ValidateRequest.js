@@ -1,6 +1,6 @@
 'use strict';
 
-export function validateRequest(data, expectedPattern, failure, callback) {
+module.exports.validateRequest = (data, expectedPattern, failure, callback) => {
   expectedPattern.forEach(element => {
     if (typeof data[element.name] !== element.type) {
       console.log('Validation Failed');
@@ -15,4 +15,4 @@ export function validateRequest(data, expectedPattern, failure, callback) {
     }
   });
   return true;
-}
+};

@@ -1,8 +1,8 @@
 'use strict';
 
-import { get } from '../../database/dynamodb';
+const db = require('../../database/dynamodb');
 
-export function getItemById(table, search, name, complete, callback) {
+module.exports.getItemById = (table, search, name, complete, callback) => {
   const params = {
     TableName: table,
     Key: {
@@ -11,7 +11,7 @@ export function getItemById(table, search, name, complete, callback) {
   };
 
   // get asset from the database
-  get(params, (error, result) => {
+  db.get(params, (error, result) => {
     if (error) {
       console.log(error);
       complete(
@@ -40,4 +40,4 @@ export function getItemById(table, search, name, complete, callback) {
       );
     }
   });
-}
+};
