@@ -153,10 +153,10 @@ functions:
           cors: true
 
   seedUser:
-    handler: server/v1/seed/add.add
+    handler: server/v1/seed/updateUser.updateUser
     events:
       - http:
-          path: v1/seed
+          path: v1/seed/updateUser
           method: post
           cors: true
 
