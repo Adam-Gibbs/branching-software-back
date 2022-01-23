@@ -58,7 +58,7 @@ function checkResponse(response) {
     }
   } catch (e) {
     console.log(e);
-    complete(
+    sr.sendResponse(
       {
         statusCode: 501,
         return: {message: `An error occurred, please try again`}
