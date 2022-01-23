@@ -156,7 +156,15 @@ functions:
     handler: server/v1/seed/updateUser.updateUser
     events:
       - http:
-          path: v1/seed/update-user
+          path: v1/seed/user
+          method: post
+          cors: true
+
+  seedUser:
+    handler: server/v1/seed/updateGoals.updateGoals
+    events:
+      - http:
+          path: v1/seed/goals
           method: post
           cors: true
 

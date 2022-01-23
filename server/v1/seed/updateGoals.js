@@ -4,7 +4,7 @@ const sr = require('../../helper/SendResponse');
 const db = require('../../helper/db/Add');
 const faker = require('@ngneat/falso');
 
-module.exports.addGoal = (event, context, callback)  =>  {
+module.exports.updateGoals = (event, context, callback)  =>  {
   const data = JSON.parse(event.body);
   if (vr.validateRequest(data, [{name: 'userId', type: 'string'}, {name: 'number', type: 'number'}], sr.sendResponse, callback)) {
     add(4, data.userId, callback);
