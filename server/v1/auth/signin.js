@@ -30,15 +30,15 @@ module.exports.signin = (event, context, callback) => {
         return;
       }
 
-      checkResponse(result.Items);
+      checkResponse(result);
     });
   }
 };
 
 function checkResponse(response) {
   try {
-    if (response.length > 0) {
-      if (response[0].password === 'data.password') {
+    if (response.Items.length > 0) {
+      if (response.Items[0].password === 'data.password') {
         sr.sendResponse(
           {
             statusCode: 201,
