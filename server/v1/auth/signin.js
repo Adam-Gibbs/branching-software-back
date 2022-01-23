@@ -1,61 +1,63 @@
 'use strict';
 
+const vr = require('../../helper/ValidateRequest');
+const sr = require('../../helper/SendResponse');
 const db = require('../../database/dynamodb');
 
 module.exports.signin = (event, context, callback) => {
   const data = JSON.parse(event.body);
-  if (typeof data.email !== 'string' && typeof data.password !== 'string') {
-    console.log('Validation Failed');
-    callback(null, {
-      statusCode: 400,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Invalid data'}),
-    });
-    return;
-  }
-
-  const params = {
-    TableName: process.env.USERS_TABLE,
-    Key: {
-      email: data.email,
-    },
-  };
-
-  // get the user from the database
-  db.get(params, (error, result) => {
-    let response = {
-      statusCode: 401,
-      headers: {    
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      body: JSON.stringify({message: 'Incorrect Username/Password'}),
+  if (vr.validateRequest(data, [{name: 'email', type: 'string'}, {name: 'password', type: 'string'}], sr.sendResponse, callback)) {
+    const params = {
+      TableName: process.env.USERS_TABLE,
+      IndexName: 'email-user-index',
+      KeyConditionExpression: `email = :e`,
+      ExpressionAttributeValues: {
+      ':e': data.email
+      }
     };
 
-    if (error) {
-      console.log(error);
-      callback(null, response);
-      return;
-    }
-
-    try {
-      if (result.Item.password === data.password) {
-        response = {
-          statusCode: 201,
-          headers: {    
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
+    // get the user from the database
+    db.query(params, (error, result) => {
+      if (error) {
+        console.log(error);
+        sr.sendResponse(
+          {
+            statusCode: 501,
+            return: {message: `An error occurred, please try again`}
           },
-          body: JSON.stringify({message: 'Success', result: result.Item}),
-        };
+          callback
+        );
+        return;
       }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      callback(null, response);
-    }
-  });
+
+      try {
+        if (result.Items[0].password === data.password) {
+          sr.sendResponse(
+            {
+              statusCode: 201,
+              return: {message: 'Success', result: result.Item}
+            },
+            callback
+          );
+        } else {
+          sr.sendResponse(
+            {
+              statusCode: 401,
+              return: {message: `Incorrect Username/Password`}
+            },
+            callback
+          );
+        }
+      } catch (e) {
+        console.log(e);
+        complete(
+          {
+            statusCode: 501,
+            return: {message: `This user does not exist`}
+          },
+          callback
+        );
+      }
+    });
+  }
 };

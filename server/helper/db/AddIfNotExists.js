@@ -3,7 +3,7 @@
 const helper = require('./CheckExists');
 const db = require('./Add');
 
-module.exports.addIfNotExists = (table, data, search, complete, name, callback) => {
+module.exports.addIfNotExists = (table, data, search, name, complete, callback) => {
   helper.checkExists(
     table, 
     search,
