@@ -14,7 +14,7 @@ function checkExists(userId, success, failure, callback) {
   };
 
   // get the user from the database
-  db.queryAsync(params).then((error, result) => {
+  db.query(params).then((error, result) => {
     console.log(result)
     if (error) {
       console.log(error);
