@@ -15,22 +15,17 @@ async function checkExists(userId) {
   console.log("E")
 
   // get the user from the database
-  db.query(params, (error, result) => {
+  db.queryAsync(params).then((error, result) => {
+    console.log(result)
     if (error) {
       console.log(error);
+      console.log("F")
       return false;
-    }
-    console.log("F")
-    console.log(result.Items)
-
-    try {
-      if (result.Items.length > 0) {
-        console.log("G")
-        return true;
-      }
-    } catch (f) {
-      console.log("GGG")
-      console.log(f);
+    } else if (result.Items.length > 0) {
+      console.log("G")
+      return true;
+    } else {
+      console.log("GG")
       return false;
     }
   });
