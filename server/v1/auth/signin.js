@@ -30,41 +30,40 @@ module.exports.signin = (event, context, callback) => {
         return;
       }
 
-      console.log("AAAA");
-      console.log(result);
-      console.log(result.Items);
-      console.log(result.Items[0]);
+      checkResponse(result.Items);
+    });
+  }
+};
 
-      try {
-        if (result.Items.length > 0) {
-          if (result.Items[0].password === 'data.password') {
-            sr.sendResponse(
-              {
-                statusCode: 201,
-                return: {message: 'Success', result: result.Items}
-              },
-              callback
-            );
-          }
-        } else {
-          sr.sendResponse(
-            {
-              statusCode: 401,
-              return: {message: `Incorrect Username/Password`}
-            },
-            callback
-          );
-        }
-      } catch (e) {
-        console.log(e);
-        complete(
+function checkResponse(response) {
+  try {
+    if (response.length > 0) {
+      if (response[0].password === 'data.password') {
+        sr.sendResponse(
           {
-            statusCode: 501,
-            return: {message: `An error occurred, please try again`}
+            statusCode: 201,
+            return: {message: 'Success', result: result.Items}
           },
           callback
         );
       }
-    });
+    } else {
+      sr.sendResponse(
+        {
+          statusCode: 401,
+          return: {message: `Incorrect Username/Password`}
+        },
+        callback
+      );
+    }
+  } catch (e) {
+    console.log(e);
+    complete(
+      {
+        statusCode: 501,
+        return: {message: `An error occurred, please try again`}
+      },
+      callback
+    );
   }
-};
+}
