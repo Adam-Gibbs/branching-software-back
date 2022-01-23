@@ -160,7 +160,7 @@ functions:
           method: post
           cors: true
 
-  seedUser:
+  seedGoal:
     handler: server/v1/seed/updateGoals.updateGoals
     events:
       - http:
