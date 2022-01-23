@@ -36,14 +36,16 @@ module.exports.signin = (event, context, callback) => {
       console.log(result.Items[0]);
 
       try {
-        if (result.Items[0].password === 'data.password') {
-          sr.sendResponse(
-            {
-              statusCode: 201,
-              return: {message: 'Success', result: result.Items}
-            },
-            callback
-          );
+        if (result.Items.length > 0) {
+          if (result.Items[0].password === 'data.password') {
+            sr.sendResponse(
+              {
+                statusCode: 201,
+                return: {message: 'Success', result: result.Items}
+              },
+              callback
+            );
+          }
         } else {
           sr.sendResponse(
             {
@@ -58,7 +60,7 @@ module.exports.signin = (event, context, callback) => {
         complete(
           {
             statusCode: 501,
-            return: {message: `This user does not exist`}
+            return: {message: `An error occurred, please try again`}
           },
           callback
         );

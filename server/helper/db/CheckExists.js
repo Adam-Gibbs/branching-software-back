@@ -21,7 +21,7 @@ module.exports.checkExists = (table, search, failure, exists, notExists) => {
     }
     
     try {
-      if (result.Items) {
+      if (result.Items.length > 0) {
         exists();
       } else {
         notExists();
