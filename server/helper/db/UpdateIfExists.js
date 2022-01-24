@@ -1,6 +1,6 @@
 'use strict';
 
-const helper = require('./CheckExists');
+const helper = require('./CheckExistsById');
 const db = require('../../database/dynamodb');
 
 module.exports.updateIfExists = (table, data, search, name, complete, callback) => {
