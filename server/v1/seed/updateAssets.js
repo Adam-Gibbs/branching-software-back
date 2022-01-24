@@ -18,11 +18,12 @@ function add(value, userId, callback) {
     userId: userId,
     co2: item.price,
     description: item.description,
-    eol: faker.randFutureDate(),
+    eol: Date.now()+(faker.randNumber({ min: 432, max: 26298 })*1000000),
     image: "",
     location: faker.randCity(),
     name: item.title,
     type: item.category,
+    createdAt: Date.now()-(faker.randNumber({ min: 0, max: 2629 })*1000000)
   };
 
   db.add(process.env.ASSETS_TABLE, params, complete, {value: value, userId: userId, callback: callback});

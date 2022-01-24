@@ -2,6 +2,9 @@
     "name": "branching-software-back",
     "version": "1.5.7",
     "description": "Serverless REST API for branching.software",
+    "scripts": {
+      "test": ""
+    },
     "dependencies": {
         "@ngneat/falso": "^2.13.0",
         "uuid": "^2.0.3"
