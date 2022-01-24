@@ -29,14 +29,14 @@ custom:
     migration:
       dir: offline/migrations
     stages:
-      - dev
+      - uniprod
 
 provider:
   name: aws
   runtime: nodejs12.x
   region: eu-west-2
   lambdaHashingVersion: 20201221
-  stage: dev
+  stage: uniprod
   iamRoleStatements:
   - Effect: Allow
     Action:
