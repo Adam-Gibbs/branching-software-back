@@ -17,7 +17,7 @@ module.exports.updateUser = (event, context, callback) => {
           ":locationData": {ongoing: "8", outputDay: "7.2kg", outputTotal: "380kg", burndown: {yaxis: [ 22, 22, 21, 19,18, 18, 15, 14, 13, 11, null, null, null, null, null, null, null, null,null, null, ]}, halfline: {yaxis: [0, 9, 5, 10, 9, 2, 2, 8, 4, 5, 4, 3, 2, 5, 1, 10, 10, 4, 2, 0, 1, 2,7, 4, 7, 6, 0, 7, 11, 6,], valueA: "146", valueB: "78", changeA: "+12%", changeB: "-10%"}, quarterProgress: {value: "20kg", progress: "82"}, quarterBar: {value: "67kg", change: "-4.3%", dataA: [14, 11, 7, 9, 6, 15, 5], dataB: [13, 9, 8, 15, 12, 7, 6]}}
         }
       },
-      {index: 'email-user-index', search: 'userId', searchItem: data.userId},
+      {id: data.userId},
       'User',
       sr.sendResponse,
       callback

@@ -4,7 +4,7 @@ const helper = require('./CheckExists');
 const db = require('../../database/dynamodb');
 
 module.exports.updateIfExists = (table, data, search, name, complete, callback) => {
-  helper.checkExists(
+  helper.checkExistsById(
     table, 
     search,
     function(){

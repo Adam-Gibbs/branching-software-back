@@ -1,6 +1,6 @@
 {
     "name": "branching-software-back",
-    "version": "1.5.4",
+    "version": "1.5.5",
     "description": "Serverless REST API for branching.software",
     "dependencies": {
         "@ngneat/falso": "^2.13.0",
