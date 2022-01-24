@@ -160,11 +160,19 @@ functions:
           method: post
           cors: true
 
-  seedGoal:
+  seedGoals:
     handler: server/v1/seed/updateGoals.updateGoals
     events:
       - http:
           path: v1/seed/goals
+          method: post
+          cors: true
+
+  seedAssets:
+    handler: server/v1/seed/updateAssets.updateAssets
+    events:
+      - http:
+          path: v1/seed/assets
           method: post
           cors: true
 
