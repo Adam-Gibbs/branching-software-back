@@ -42,9 +42,14 @@ Installing and running the backend locally is not needed to test the frontend lo
 ```bash
   npm run test
 ```
-## Assumptions
 
-#### Assumptions made while creating this project:
+## Documentation
+
+API documentation can be found [here](https://documenter.getpostman.com/view/12117103/UVe9RVBV).
+
+Manual testing of the API can be acheived by using these docs and comparing the expected results with the actual results.
+
+## Assumptions
 
 - This is a serverless-ly deployed REST API. As such function definitions and database table/index creation is located in the serverless.yaml in the root of this project.
  

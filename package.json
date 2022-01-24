@@ -1,9 +1,9 @@
 {
     "name": "branching-software-back",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Serverless REST API for branching.software",
     "scripts": {
-      "test": ""
+        "test": "jest"
     },
     "dependencies": {
         "@ngneat/falso": "^2.13.0",
@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "aws-sdk": "^2.12.0",
+        "jest": "^27.4.7",
         "serverless-dynamodb-local": "^0.2.18",
         "serverless-offline": "^8.3.1"
     }

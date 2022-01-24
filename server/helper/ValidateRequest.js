@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports.validateRequest = (data, expectedPattern, failure, callback) => {
+  let valid = true;
   expectedPattern.forEach(element => {
     if (typeof data[element.name] !== element.type) {
-      console.log('Validation Failed');
       failure(
         {
           statusCode: 401,
@@ -11,8 +11,8 @@ module.exports.validateRequest = (data, expectedPattern, failure, callback) => {
         },
         callback
       );
-      return false;
+      valid = false;
     }
   });
-  return true;
+  return valid;
 };

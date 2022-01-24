@@ -8,7 +8,7 @@ const faker = require('@ngneat/falso');
 module.exports.updateGoals = (event, context, callback)  =>  {
   const data = JSON.parse(event.body);
   if (vr.validateRequest(data, [{name: 'userId', type: 'string'}, {name: 'number', type: 'number'}], sr.sendResponse, callback)) {
-    add(data.number, data.userId, callback);
+    add(data.number - 1, data.userId, callback);
   }
 };
 
@@ -45,10 +45,10 @@ function complete(data, carry) {
   } else {
     sr.sendResponse(
       {
-        statusCode: error.statusCode || 501,
+        statusCode: 501,
         return: {message: `An error occurred, please try again`}
       },
-      callback
+      carry.callback
     );
   }
 }

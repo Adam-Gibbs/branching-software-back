@@ -8,7 +8,7 @@ const faker = require('@ngneat/falso');
 module.exports.updateAssets = (event, context, callback)  =>  {
   const data = JSON.parse(event.body);
   if (vr.validateRequest(data, [{name: 'userId', type: 'string'}, {name: 'number', type: 'number'}], sr.sendResponse, callback)) {
-    add(data.number, data.userId, callback);
+    add(data.number - 1, data.userId, callback);
   }
 };
 
@@ -16,7 +16,7 @@ function add(value, userId, callback) {
   const item = faker.randProduct()
   const params = {
     userId: userId,
-    co2: item.price,
+    co2: parseFloat(item.price),
     description: item.description,
     eol: Date.now()+(faker.randNumber({ min: 432, max: 26298 })*1000000),
     image: "",
@@ -39,10 +39,10 @@ function complete(data, carry) {
   } else {
     sr.sendResponse(
       {
-        statusCode: error.statusCode || 501,
+        statusCode: 501,
         return: {message: `An error occurred, please try again`}
       },
-      callback
+      carry.callback
     );
   }
 }
