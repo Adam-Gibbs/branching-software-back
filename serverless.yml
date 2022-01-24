@@ -72,6 +72,14 @@ functions:
           method: post
           cors: true
 
+  getUser:
+    handler: server/v1/user/getUserData.getUserData
+    events:
+      - http:
+          path: v1/user
+          method: post
+          cors: true
+
   addAsset:
     handler: server/v1/assets/add.addAsset
     events:
