@@ -35,7 +35,7 @@ module.exports.signin = (event, context, callback) => {
           sr.sendResponse(
             {
               statusCode: 201,
-              return: {message: 'Success', result: result}
+              return: {message: 'Success', result: result.Items[0]}
             },
             callback
           );
