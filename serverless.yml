@@ -14,11 +14,11 @@ package:
 
 custom:
   tablePrefix: branching-software-${self:provider.stage}
-  usersTable: ${self:custom.tablePrefix}-users-v2
-  assetsTable: ${self:custom.tablePrefix}-assets-v1
-  goalsTable: ${self:custom.tablePrefix}-goals-v1
-  locationsTable: ${self:custom.tablePrefix}-locations-v1
-  assetTypesTable: ${self:custom.tablePrefix}-asset-types-v1
+  usersTable: ${self:custom.tablePrefix}-users-v3
+  assetsTable: ${self:custom.tablePrefix}-assets-v2
+  goalsTable: ${self:custom.tablePrefix}-goals-v2
+  locationsTable: ${self:custom.tablePrefix}-locations-v2
+  assetTypesTable: ${self:custom.tablePrefix}-asset-types-v2
 
   dynamodb:
     start:
